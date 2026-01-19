@@ -1,0 +1,93 @@
+<div class="card">
+    <p-toast></p-toast>
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                (click)="openNew()"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table [value]="employees" [rows]="10" [paginator]="true" [loading]="loading"
+        [globalFilterFields]="['FirstName', 'LastName', 'Email', 'Position']" [tableStyle]="{ 'min-width': '75rem' }"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true">
+
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Employees</h5>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="FirstName" style="min-width:10rem">First Name <p-sortIcon
+                        field="FirstName"></p-sortIcon></th>
+                <th pSortableColumn="LastName" style="min-width:10rem">Last Name <p-sortIcon
+                        field="LastName"></p-sortIcon></th>
+                <th pSortableColumn="Email">Email <p-sortIcon field="Email"></p-sortIcon></th>
+                <th pSortableColumn="Position">Position <p-sortIcon field="Position"></p-sortIcon></th>
+                <th pSortableColumn="Phone">Phone</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-emp>
+            <tr>
+                <td>{{ emp.FirstName }}</td>
+                <td>{{ emp.LastName }}</td>
+                <td>{{ emp.Email }}</td>
+                <td>{{ emp.Position }}</td>
+                <td>{{ emp.Phone }}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                        (click)="editEmployee(emp)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="deleteEmployee(emp)"></button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{employees ? employees.length : 0 }} employees.
+            </div>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="employeeDialog" [style]="{ width: '450px' }" header="Employee Details" [modal]="true"
+        styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <div class="field">
+                <label for="FirstName">First Name</label>
+                <input type="text" pInputText id="FirstName" [(ngModel)]="employee.FirstName" required autofocus />
+                <small class="p-error" *ngIf="submitted && !employee.FirstName">First Name is required.</small>
+            </div>
+            <div class="field">
+                <label for="LastName">Last Name</label>
+                <input type="text" pInputText id="LastName" [(ngModel)]="employee.LastName" required />
+                <small class="p-error" *ngIf="submitted && !employee.LastName">Last Name is required.</small>
+            </div>
+            <div class="field">
+                <label for="Email">Email</label>
+                <input type="text" pInputText id="Email" [(ngModel)]="employee.Email" required />
+            </div>
+            <div class="field">
+                <label for="Position">Position</label>
+                <input type="text" pInputText id="Position" [(ngModel)]="employee.Position" />
+            </div>
+            <div class="field">
+                <label for="Phone">Phone</label>
+                <input type="text" pInputText id="Phone" [(ngModel)]="employee.Phone" />
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+                (click)="saveEmployee()"></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>

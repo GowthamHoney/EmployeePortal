@@ -1,0 +1,27 @@
+<div class="flex justify-content-center align-items-center min-h-screen bg-blue-50">
+    <p-toast></p-toast>
+    <p-card header="Employee Portal Login" [style]="{ width: '25rem' }" styleClass="shadow-2">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="field flex flex-column gap-2 mb-3">
+                <label for="Username">User ID</label>
+                <input pInputText id="Username" formControlName="Username" placeholder="Enter your User ID"
+                    [ngClass]="{'ng-invalid ng-dirty': loginForm.get('Username')?.touched && loginForm.get('Username')?.invalid}" />
+                <small *ngIf="loginForm.get('Username')?.touched && loginForm.get('Username')?.invalid" class="p-error">
+                    User ID is required.
+                </small>
+            </div>
+
+            <div class="field flex flex-column gap-2 mb-4">
+                <label for="Password">Password</label>
+                <p-password id="Password" formControlName="Password" [feedback]="false" [toggleMask]="true"
+                    placeholder="Enter your Password" styleClass="w-full" [inputStyle]="{'width':'100%'}"
+                    [ngClass]="{'ng-invalid ng-dirty': loginForm.get('Password')?.touched && loginForm.get('Password')?.invalid}"></p-password>
+                <small *ngIf="loginForm.get('Password')?.touched && loginForm.get('Password')?.invalid" class="p-error">
+                    Password is required.
+                </small>
+            </div>
+
+            <p-button label="Sign In" styleClass="w-full" type="submit" [loading]="loading"></p-button>
+        </form>
+    </p-card>
+</div>
